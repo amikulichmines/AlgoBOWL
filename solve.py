@@ -25,29 +25,40 @@ def binary_search_boolean(arr, x):
             return mid
     return False
 
+
 def fixit(n, o1, o2, o3):
+    """
+    Turns o3 into a list in which you can add two of the elements together to get n
+    :param n: The value you want to be able to add to
+    :param o1: out1
+    :param o2: out2
+    :param o3: out3
+    :return: Updated versions of all three lists
+    """
     while o3[-1]*2 < n:
         o1.append(o3[-1])
         o2.append(o3[-1])
         o3.append(o3[-1]*2)
+    # Doubles until it gets to biggest value. O(lg n)
     i = -1
-    while True:
+    while True: #O(n)
         diff = n - o3[i]
         if diff < 0:
             i-=1
         else:
             break
-    temp_tup = addUp(o3, n)
+    temp_tup = addUp(o3, diff)  # O(n lg n)
     if not temp_tup:
         o1, o2, o3 = fixit(diff, o1, o2, o3)
         temp_tup = addUp(o3, diff)
     o1.append(temp_tup[0])
     o2.append(temp_tup[1])
     o3.append(diff)
-    o1 = sorted(o1)
+    o1 = sorted(o1)  # O(n lg n)
     o2 = sorted(o2)
     o3 = sorted(o3)
     return [o1, o2, o3]
+
 
 def get_input():
     with open('input.txt','r') as f:
@@ -64,8 +75,8 @@ def run():
     out1 = [1]
     out2 = [1]
     out3 = [1, 2]
-    # inputs = [random.randint(2, 999999999) for i in range(0,500)]
-    inputs = [2,4,19,200,6000,8000000]
+    inputs = [random.randint(2, 999999999) for i in range(0,1000)]
+    # inputs = [2,4,19,200,6000,8000000]
     inputs = sorted(list(dict.fromkeys(inputs)))
     print(inputs)
     for n in inputs: # n
